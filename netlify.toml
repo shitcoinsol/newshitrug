@@ -1,8 +1,4 @@
-
 [build]
   command = "npm run build"  # 빌드 명령어
   functions = "netlify/functions"
-  publish = "public"  # 배포할 파일들
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"  # 필요 없으면 제거해야 할 수 있음
+  publish = "public"  # 배포할 파일들이 저장될 폴더
