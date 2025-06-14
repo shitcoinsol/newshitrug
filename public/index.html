@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solana Token Risk Scanner</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #0078D4;
+    }
+    label {
+      font-size: 1.1em;
+      color: #444;
+      margin-bottom: 10px;
+      display: block;
+    }
+    input {
+      padding: 10px;
+      font-size: 1em;
+      width: 100%;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #0078D4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.1em;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005A9E;
+    }
+    select {
+      padding: 10px;
+      font-size: 1em;
+      width: 100%;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.2em;
+      color: #444;
+      text-align: left;
+    }
+    .result p {
+      margin: 10px 0;
+    }
+    .footer {
+      margin-top: 50px;
+      font-size: 0.9em;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Solana Token Risk Scanner</h1>
+    <label for="tokenAddress">Enter Solana Token Address:</label>
+    <input type="text" id="tokenAddress" placeholder="Enter token address" />
+    <button onclick="scanToken()">Scan Now</button>
+
+    <h3 id="timeIntervalLabel" style="display: none;">Choose Time Interval:</h3>
+    <select id="timeInterval" style="display: none;">
+      <option value="1m">1 Minute</option>
+      <option value="5m">5 Minutes</option>
+      <option value="10m">10 Minutes</option>
+      <option value="30m">30 Minutes</option>
+      <option value="1h">1 Hour</option>
+    </select>
+
+    <div id="result" class="result"></div>
+
+    <div class="footer">Developed by Solana Risk Analytics</div>
+  </div>
+
+  <script>
+    async function scanToken() {
+      const tokenAddress = document.getElementById('tokenAddress').value;
+      const url = `/.netlify/functions/tokenData?tokenAddress=${tokenAddress}`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      // Show time interval selection after data is fetched
+      document.getElementById('timeIntervalLabel').style.display = 'block';
+      document.getElementById('timeInterval').style.display = 'block';
+
+      const buyVolume = data.price;
+      const sellVolume = data.devWalletActivity;  // Example usage
+      const buySellRatio = buyVolume / sellVolume;
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = ` 
+        <p>Token Address: ${data.tokenAddress}</p>
+        <p>Price: ${buyVolume}</p>
+        <p>Created On: ${data.createdOn}</p>
+        <p>Dev Wallet Activity: ${JSON.stringify(data.devWalletActivity)}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
