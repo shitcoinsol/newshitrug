@@ -1,13 +1,12 @@
-
 {
   "name": "solana-token-risk-scanner",
   "version": "1.0.0",
   "scripts": {
-    "build": "npm run build",  // Build command
-    "start": "npm run start"   // Start command if needed
+    "build": "npm run build",
+    "start": "npm run start"
   },
   "dependencies": {
-    "node-fetch": "^2.6.1",  // For making API requests
-    "netlify-cli": "^3.0.0"  // For Netlify CLI tools (optional)
+    "node-fetch": "^2.6.1",
+    "netlify-cli": "^3.0.0"
   }
 }
